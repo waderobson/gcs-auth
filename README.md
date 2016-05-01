@@ -20,7 +20,9 @@ What you need:
 ### Uploading your files
 You can upload you munki repo to the bucket using gsutil. Get it [here](https://cloud.google.com/storage/docs/gsutil_install#mac)
 The following command will upload all the files from `/path/to/munki_repo` into your bucket. For more details run `gsutil help rsync`
-`gsutil -m rsync -r -d -x '.DS_Store|.git' /path/to/munki_repo gs://<bucket goes here>/`
+```bash
+gsutil -m rsync -r -d -x '.DS_Store|.git' /path/to/munki_repo gs://<bucket goes here>/
+```
 
 ### Installing on client
 
