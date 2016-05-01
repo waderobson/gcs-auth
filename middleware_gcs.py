@@ -1,4 +1,11 @@
+"""
+Generate signed URLc for your munki repo
+This module is using munki middleware
+https://github.com/munki/munki/wiki/Middleware
 
+Alot of this code was lifted from google's examples or from gsutil.
+
+"""
 
 
 import base64
