@@ -1,5 +1,5 @@
 """
-Generate signed URLc for your munki repo
+Generate signed URLs for your munki repo
 This module is using munki middleware
 https://github.com/munki/munki/wiki/Middleware
 
