@@ -18,7 +18,7 @@ What you need:
 7. You need to add the service account as a user with reader access. Add it to both **Edit bucket bermissions** and **Edit object default permissions**
 
 ### Uploading your files
-You can upload you munki repo to the bucket using gsutil. Get it [here](https://cloud.google.com/storage/docs/gsutil_install#mac)
+You can upload you munki repo to the bucket using gsutil get it [here](https://cloud.google.com/storage/docs/gsutil_install#mac).  
 The following command will upload all the files from `/path/to/munki_repo` into your bucket. For more details run `gsutil help rsync`
 ```bash
 gsutil -m rsync -r -d -x '.DS_Store|.git' /path/to/munki_repo gs://<bucket goes here>/
