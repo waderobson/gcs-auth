@@ -6,7 +6,7 @@ What you need:
 * Google Cloud Platform account
 * A google storage bucket
 * Service account with read only access.
-* Developement build of munki version 2.6.1.2721 or higher to use middleware. You can find that [here](https://munkibuilds.org/)
+* Munki version 2.7.0 or higher to use middleware. You can find that [here](https://github.com/munki/munki/releases)
 
 
 ### Create bucket and Read Only account
@@ -14,8 +14,8 @@ What you need:
 2. create your readonly service account under [IAM & Admin](https://console.cloud.google.com/iam-admin)
 3. Creat a new service account called whatever you want. Make sure to check the **"Furnish a private new key"** checkbox. Choose JSON as the keytype. That's the file we need for munki so keep that, you can't download that JSON file again but you can create a new one later. 
 5. Go to the IAM section and find the service account, should be under editors. And remove all roles.
-6. Next we create new bucket, once its created click on the bucket view then chose the elipsis buttons on the very right next to the bucket. You should have the option to **Edit bucket bermissions** and **Edit object default permissions**
-7. You need to add the service account as a user with reader access. Add it to both **Edit bucket bermissions** and **Edit object default permissions**
+6. Next we create new bucket, once its created click on the bucket view then chose the elipsis buttons on the very right next to the bucket. You should have the option to **Edit bucket permissions** and **Edit object default permissions**
+7. You need to add the service account as a user with reader access. Add it to both **Edit bucket permissions** and **Edit object default permissions**
 
 ### Uploading your files
 You can upload you munki repo to the bucket using gsutil get it [here](https://cloud.google.com/storage/docs/gsutil_install#mac).  
