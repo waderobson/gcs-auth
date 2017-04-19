@@ -21,6 +21,7 @@ from OpenSSL.crypto import sign
 from urlparse import urlparse
 from urllib import quote_plus
 
+__version__ = '1.0'
 #Our json keystore file
 JSON_FILE = 'gcs.json'
 JSON_FILE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), JSON_FILE))
