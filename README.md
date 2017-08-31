@@ -11,11 +11,11 @@ What you need:
 
 ### Create bucket and Read Only account
 1. Create a new project or navigate to an exsiting one.
-2. create your readonly service account under [IAM & Admin](https://console.cloud.google.com/iam-admin)
-3. Creat a new service account called whatever you want. Make sure to check the **"Furnish a private new key"** checkbox. Choose JSON as the keytype. That's the file we need for munki so keep that, you can't download that JSON file again but you can create a new one later. 
-5. Go to the IAM section and find the service account, should be under editors. And remove all roles.
-6. Next we create new bucket, once its created click on the bucket view then chose the elipsis buttons on the very right next to the bucket. You should have the option to **Edit bucket permissions** and **Edit object default permissions**
-7. You need to add the service account as a user with reader access. Add it to both **Edit bucket permissions** and **Edit object default permissions**
+2. Create your read-only service account under [IAM & Admin](https://console.cloud.google.com/iam-admin)
+3. Create a new service account called whatever you want. Make sure to check the **"Furnish a private new key"** checkbox. Choose JSON as the keytype. That's the file we need for munki so keep that, you can't download that JSON file again but you can create a new one later. 
+5. Go to the IAM section and find the service account, should be under editors and remove all roles (if there are any).
+6. Create new bucket, under [Storage](https://console.cloud.google.com/storage). 
+7. Once created, we need to assign read permissions to the service account we created. To do so, select the bucket from the list then click the three dots button on the right end of the line where the bucket is. In the sidebar, search for your service account and add the **Storage Object Viewer permissions to it**.
 
 ### Uploading your files
 You can upload you munki repo to the bucket using gsutil get it [here](https://cloud.google.com/storage/docs/gsutil_install#mac).  
