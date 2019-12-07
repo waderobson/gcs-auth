@@ -7,7 +7,6 @@ Alot of this code was lifted from google's examples or from gsutil.
 
 """
 
-
 import base64
 import datetime
 import time
@@ -18,8 +17,17 @@ from OpenSSL.crypto import FILETYPE_PEM
 from OpenSSL.crypto import load_privatekey
 from OpenSSL.crypto import sign
 
-from urlparse import urlparse
-from urllib import quote_plus
+# backwards compatibility for python2
+try:
+    from urlparse import urlparse
+except ImportError:
+    from urllib.parse import urlparse
+
+try: 
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import quote_plus
+
 
 __version__ = '1.0'
 #Our json keystore file
@@ -35,7 +43,7 @@ def read_json_keystore():
     ks = json.loads(open(JSON_FILE_PATH, 'rb').read())
 
     if 'client_email' not in ks or 'private_key' not in ks:
-        print 'JSON keystore doesn\'t contain required fields'
+        print('JSON keystore doesn\'t contain required fields')
 
     client_email = ks['client_email']
     key = load_privatekey(FILETYPE_PEM, ks['private_key'])
