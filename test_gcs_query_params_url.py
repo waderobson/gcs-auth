@@ -1,5 +1,9 @@
 import datetime
-from datetime import timezone
+
+try:
+    from datetime import timezone
+except ImportError:
+    import pytz as timezone
 try:
     from mock import patch
 
