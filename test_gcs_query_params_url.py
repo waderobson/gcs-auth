@@ -10,7 +10,7 @@ from middleware_gcs import gcs_query_params_url  # noqa E402
 
 @patch("middleware_gcs.datetime")
 def test_gcs_query_params_url(datetime_mock):
-    datetime_mock.datetime.now.return_value = datetime.datetime(2019, 11, 1, 18, 20, 48, 963798)
+    datetime_mock.datetime.utcnow.return_value = datetime.datetime(2019, 11, 1, 18, 20, 48, 963798)
     datetime_mock.timedelta.return_value = datetime.timedelta(0, 900)
     test = gcs_query_params_url('http://test')
     assert test == ('https://storage.googleapis.com?'

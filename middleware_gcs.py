@@ -9,7 +9,6 @@ Alot of this code was lifted from google's examples or from gsutil.
 
 import base64
 import datetime
-import time
 import json
 import os
 
@@ -41,7 +40,7 @@ def uri_from_url(url):
 
 
 def read_json_keystore():
-    ks = json.loads(open(JSON_FILE_PATH, 'rb').read())
+    ks = json.loads(open(JSON_FILE_PATH, 'rb').read().decode('utf-8'))
 
     if 'client_email' not in ks or 'private_key' not in ks:
         print('JSON keystore doesn\'t contain required fields')
@@ -55,8 +54,10 @@ def read_json_keystore():
 def gen_signed_url(gcs_path):
     """Construct a string to sign with the provided key and returns \
     the complete url."""
-    expiration = (datetime.datetime.now() + datetime.timedelta(minutes=15))
-    expiration = int(time.mktime(expiration.timetuple()))
+    expiration = (datetime.datetime.utcnow() + datetime.timedelta(minutes=15))
+    print(expiration)
+    expiration = int(expiration.timestamp())
+    print(expiration)
 
     key, client_id = read_json_keystore()
     canonicalized_resource = '{}'.format(gcs_path)
