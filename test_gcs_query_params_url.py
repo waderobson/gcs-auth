@@ -1,4 +1,5 @@
 import datetime
+from datetime import timezone
 try:
     from mock import patch
 
@@ -10,17 +11,17 @@ from middleware_gcs import gcs_query_params_url  # noqa E402
 
 @patch("middleware_gcs.datetime")
 def test_gcs_query_params_url(datetime_mock):
-    datetime_mock.datetime.utcnow.return_value = datetime.datetime(2019, 11, 1, 18, 20, 48, 963798)
+    datetime_mock.datetime.now.return_value = datetime.datetime(2019, 11, 1, 18, 20, 48, 963798, tzinfo=timezone.utc)
     datetime_mock.timedelta.return_value = datetime.timedelta(0, 900)
     test = gcs_query_params_url('http://test')
+
     assert test == ('https://storage.googleapis.com?'
-                    'GoogleAccessId=readonly@double.iam.gserviceaccount.com'
-                    '&Expires=1572658548'
-                    '&Signature=b%27CpiEd6cjovh59LfmkJQpWkXPCwlSKKXmFCiyIS'
-                    '%2Fvok3lb9DqJsSYkSQAMgy5vcL9W3fussTWjxYHmhYiLtKAOMryRb'
-                    'fuKfOIkegup8hqjbF%2BQx3ersJcu0NjE3vq%2B91AuYiDXyUQa1Yo%2Ff94'
-                    'YOOmdsd9xDwRqkzYl6jxykC9fr9iKKUqTJjvOk2xoJh'
-                    'z7s0MT3aou7WZwqF26Q%2F9YoExIgtWtw9cfKJ'
-                    'VapSvYdqBjdtSzKypPh4JYEtpRpW%2BEhfpR74yk3DHYmIG'
-                    'rDQjM2StVH%2B3y%2B39qWPR8X5qct75Llj1hGobKK6J4zPWmklt09W'
-                    '5uV8DRfQWVdbbFdGsKeN60w%3D%3D%27')
+                    'GoogleAccessId=readonly@double.iam.gserviceaccount.com&'
+                    'Expires=1572633348&'
+                    'Signature=b%27FAB3JUC1eUmF1z%2FJqa6Nxc0ksqn5luIqyv%2FK'
+                    'BxR%2FN3u0P4nkIMK8whKZ0rtXhGvsBcN2%2BGDkjo4SXuds85Np9xo'
+                    'GdT%2Bdk8nEKR2OZPVfBZAwV8I3THo6JtpvwDkFyfbp4oG4k%2Bmc5G'
+                    'DBlBDnbxozI231xpc6K6ehY%2FK6WO0qftaxdXNYUdrljRAzdvsIjU%2F'
+                    'irauEV1eAi6cBVce3VqqhgtCVbVh4vby9j7Bq%2BY2hjzWEigOYhh1S8'
+                    'ivCMLPX78KnoX0Fx9717BbJPdpiku%2FqSY1JbcjFnUzeCCWjTk%2BV'
+                    'qSO6e8YQ0eE4JaHKciHvEUt6t%2FJ%2B3KwZQ2skBOefvHGLJA%3D%3D%27')

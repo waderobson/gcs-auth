@@ -54,10 +54,8 @@ def read_json_keystore():
 def gen_signed_url(gcs_path):
     """Construct a string to sign with the provided key and returns \
     the complete url."""
-    expiration = (datetime.datetime.utcnow() + datetime.timedelta(minutes=15))
-    print(expiration)
+    expiration = (datetime.datetime.now() + datetime.timedelta(minutes=15))
     expiration = int(expiration.timestamp())
-    print(expiration)
 
     key, client_id = read_json_keystore()
     canonicalized_resource = '{}'.format(gcs_path)
