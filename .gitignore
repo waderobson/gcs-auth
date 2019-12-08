@@ -1,4 +1,6 @@
 .vscode
 .pytest_cache
 __pycache__/
+
 Pipfile
+Pipfile.lock

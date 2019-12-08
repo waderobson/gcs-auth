@@ -23,16 +23,17 @@ try:
 except ImportError:
     from urllib.parse import urlparse
 
-try: 
+try:
     from urllib import quote_plus
 except ImportError:
     from urllib.parse import quote_plus
 
 
 __version__ = '1.0'
-#Our json keystore file
+# Our json keystore file
 JSON_FILE = 'gcs.json'
 JSON_FILE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), JSON_FILE))
+
 
 def uri_from_url(url):
     parse = urlparse(url)
@@ -77,6 +78,7 @@ def gcs_query_params_url(url):
     file_path = uri_from_url(url)
     url = gen_signed_url(file_path)
     return url
+
 
 def process_request_options(options):
     """Make changes to options dict and return it."""

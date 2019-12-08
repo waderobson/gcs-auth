@@ -1,9 +1,9 @@
 import datetime
 try:
-    from mock import MagicMock, patch
+    from mock import patch
 
 except ImportError:
-    from unittest.mock import MagicMock, patch
+    from unittest.mock import patch
 
 from middleware_gcs import gcs_query_params_url  # noqa E402
 
@@ -24,4 +24,3 @@ def test_gcs_query_params_url(datetime_mock):
                     'VapSvYdqBjdtSzKypPh4JYEtpRpW%2BEhfpR74yk3DHYmIG'
                     'rDQjM2StVH%2B3y%2B39qWPR8X5qct75Llj1hGobKK6J4zPWmklt09W'
                     '5uV8DRfQWVdbbFdGsKeN60w%3D%3D%27')
-                    
