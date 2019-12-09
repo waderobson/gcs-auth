@@ -10,6 +10,7 @@ Alot of this code was lifted from google's examples or from gsutil.
 import base64
 import datetime
 import json
+import time
 import os
 
 from OpenSSL.crypto import FILETYPE_PEM
@@ -55,7 +56,7 @@ def gen_signed_url(gcs_path):
     """Construct a string to sign with the provided key and returns \
     the complete url."""
     expiration = (datetime.datetime.now() + datetime.timedelta(minutes=15))
-    expiration = int(expiration.timestamp())
+    expiration = int(time.mktime(expiration.timetuple()))
 
     key, client_id = read_json_keystore()
     canonicalized_resource = '{}'.format(gcs_path)
@@ -63,7 +64,7 @@ def gen_signed_url(gcs_path):
     tosign = ('{}\n{}\n{}\n{}\n{}'
               .format('GET', '', '',
                       expiration, canonicalized_resource))
-    signature = base64.b64encode(sign(key, tosign, 'RSA-SHA256'))
+    signature = base64.b64encode(sign(key, tosign, 'RSA-SHA256')).decode('utf-8')
 
     final_url = ('https://storage.googleapis.com{}?'
                  'GoogleAccessId={}&Expires={}&Signature={}'
