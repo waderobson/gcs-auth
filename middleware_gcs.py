@@ -18,10 +18,15 @@ from OpenSSL.crypto import FILETYPE_PEM
 from OpenSSL.crypto import load_privatekey
 from OpenSSL.crypto import sign
 
-from urlparse import urlparse
-from urllib import quote_plus
+# backwards compatibility for python2
+try:
+    from urlparse import urlparse
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import urlparse
+    from urllib.parse import quote_plus
 
-__version__ = '1.0'
+__version__ = '2.0'
 #Our json keystore file
 JSON_FILE = 'gcs.json'
 JSON_FILE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), JSON_FILE))
@@ -29,13 +34,13 @@ JSON_FILE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), JSON_FI
 def uri_from_url(url):
     parse = urlparse(url)
     return parse.path
-
+    print(parse.path)
 
 def read_json_keystore():
     ks = json.loads(open(JSON_FILE_PATH, 'rb').read())
 
     if 'client_email' not in ks or 'private_key' not in ks:
-        print 'JSON keystore doesn\'t contain required fields'
+        print('JSON keystore doesn\'t contain required fields')
 
     client_email = ks['client_email']
     key = load_privatekey(FILETYPE_PEM, ks['private_key'])
@@ -60,7 +65,7 @@ def gen_signed_url(gcs_path):
     final_url = ('https://storage.googleapis.com{}?'
                  'GoogleAccessId={}&Expires={}&Signature={}'
                  .format(gcs_path, client_id, expiration,
-                         quote_plus(str(signature))))
+                         quote_plus(str(signature).replace("b'","").replace("'",""))))
 
     return final_url
 
