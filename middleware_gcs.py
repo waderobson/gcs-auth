@@ -1,3 +1,4 @@
+#!/usr/local/munki/python
 """
 Generate signed URLs for your munki repo
 This module is using munki middleware
@@ -6,7 +7,6 @@ https://github.com/munki/munki/wiki/Middleware
 Alot of this code was lifted from google's examples or from gsutil.
 
 """
-
 
 import base64
 import datetime
@@ -18,8 +18,13 @@ from OpenSSL.crypto import FILETYPE_PEM
 from OpenSSL.crypto import load_privatekey
 from OpenSSL.crypto import sign
 
-from urlparse import urlparse
-from urllib import quote_plus
+# backwards compatibility for python2
+try:
+    from urlparse import urlparse
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import urlparse
+    from urllib.parse import quote_plus
 
 __version__ = '1.0'
 #Our json keystore file
@@ -35,7 +40,7 @@ def read_json_keystore():
     ks = json.loads(open(JSON_FILE_PATH, 'rb').read())
 
     if 'client_email' not in ks or 'private_key' not in ks:
-        print 'JSON keystore doesn\'t contain required fields'
+        print ('JSON keystore doesn\'t contain required fields')
 
     client_email = ks['client_email']
     key = load_privatekey(FILETYPE_PEM, ks['private_key'])
@@ -55,7 +60,7 @@ def gen_signed_url(gcs_path):
     tosign = ('{}\n{}\n{}\n{}\n{}'
               .format('GET', '', '',
                       expiration, canonicalized_resource))
-    signature = base64.b64encode(sign(key, tosign, 'RSA-SHA256'))
+    signature = base64.b64encode(sign(key, tosign, 'RSA-SHA256')).decode('utf-8')
 
     final_url = ('https://storage.googleapis.com{}?'
                  'GoogleAccessId={}&Expires={}&Signature={}'
