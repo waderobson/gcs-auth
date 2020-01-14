@@ -7,24 +7,33 @@ Alot of this code was lifted from google's examples or from gsutil.
 
 """
 
-
 import base64
 import datetime
-import time
 import json
+import time
 import os
 
 from OpenSSL.crypto import FILETYPE_PEM
 from OpenSSL.crypto import load_privatekey
 from OpenSSL.crypto import sign
 
-from urlparse import urlparse
-from urllib import quote_plus
+# backwards compatibility for python2
+try:
+    from urlparse import urlparse
+except ImportError:
+    from urllib.parse import urlparse
 
-__version__ = '1.0'
-#Our json keystore file
+try:
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import quote_plus
+
+
+__version__ = '2.0'
+# Our json keystore file
 JSON_FILE = 'gcs.json'
 JSON_FILE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), JSON_FILE))
+
 
 def uri_from_url(url):
     parse = urlparse(url)
@@ -32,10 +41,10 @@ def uri_from_url(url):
 
 
 def read_json_keystore():
-    ks = json.loads(open(JSON_FILE_PATH, 'rb').read())
+    ks = json.loads(open(JSON_FILE_PATH, 'rb').read().decode('utf-8'))
 
     if 'client_email' not in ks or 'private_key' not in ks:
-        print 'JSON keystore doesn\'t contain required fields'
+        print('JSON keystore doesn\'t contain required fields')
 
     client_email = ks['client_email']
     key = load_privatekey(FILETYPE_PEM, ks['private_key'])
@@ -55,7 +64,7 @@ def gen_signed_url(gcs_path):
     tosign = ('{}\n{}\n{}\n{}\n{}'
               .format('GET', '', '',
                       expiration, canonicalized_resource))
-    signature = base64.b64encode(sign(key, tosign, 'RSA-SHA256'))
+    signature = base64.b64encode(sign(key, tosign, 'RSA-SHA256')).decode('utf-8')
 
     final_url = ('https://storage.googleapis.com{}?'
                  'GoogleAccessId={}&Expires={}&Signature={}'
@@ -69,6 +78,7 @@ def gcs_query_params_url(url):
     file_path = uri_from_url(url)
     url = gen_signed_url(file_path)
     return url
+
 
 def process_request_options(options):
     """Make changes to options dict and return it."""
