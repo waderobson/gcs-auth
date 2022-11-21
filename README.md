@@ -28,17 +28,30 @@ gsutil -m rsync -r -d -x '.DS_Store|.git' /path/to/munki_repo gs://<bucket goes 
 
 1. Copy `middleware_gcs.py` into `/usr/local/munki/`  
 
-1. Copy the service account json keystore file to `/usr/local/munki/`. Rename it to `gcs.json`
+1. Copy the service account json keystore file to `/usr/local/munki/`. Rename it to `gcs.json`. Or aternatively add a few keys to you Munki managed preferences:
+
+    ```
+    <key>GCSClientEmail</key>
+    <string>[client_email from your service account json]</string>
+    <key>GCSPrivateKey</key>
+    <string>[base64 encoded string of the private_key from your service account json]</string>
+    ```
+    or
+
+    ```
+    <key>GCSJson</key>
+    <string>[base64 encoded string of the entire service account json]</string>
+    ```
 
 1. Change your repo to point to your Google Storage bucket.  
     ```bash
     sudo defaults write /Library/Preferences/ManagedInstalls SoftwareRepoURL  "https://storage.googleapis.com/<bucket goes here>"
     ```
 
-1. If you're using a Munki version that has embeded python you might need to install the pyOpenSSL package.
+1. If you're using a Munki version that has embeded python you might need to install the oscrypto package.
 
     ```
-    sudo /usr/local/munki/Python.framework/Versions/Current/bin/python3 -m pip install pyOpenssl
+    sudo /usr/local/munki/Python.framework/Versions/Current/bin/python3 -m pip install oscrypto
     ```
 
     running this ^ is good for testing, you'll want to read [this info](https://github.com/munki/munki/wiki/Customizing-Python-for-Munki-4#installing-additional-python-modules) on how to include the package with Munki
